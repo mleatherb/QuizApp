@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     
     var questionCount = -1
-    
+    var correctQuestions = 0
 
     
 
@@ -55,17 +55,15 @@ class ViewController: UIViewController {
             
         print(questionCount)
             
-  //      questions = [questionsArray[questionCount]]
+        questions = [questionsArray[questionCount]]
             
-        // Set the question text and answer to the buttons
+        // Set the question text to the buttons
             
         questionText.text = questions[questionCount].question
         optionOne.setTitle(questions[questionCount].option.optionOne, for: UIControlState())
         optionTwo.setTitle(questions[questionCount].option.optionTwo, for: UIControlState())
         optionThree.setTitle(questions[questionCount].option.optionThree, for: UIControlState())
         optionFour.setTitle(questions[questionCount].option.optionFour, for: UIControlState())
-            
-            
             
             
         }
@@ -78,22 +76,29 @@ class ViewController: UIViewController {
         optionThree.isHidden = true
         optionFour.isHidden = true
         
-        questionText.text = "Do you want to play again?"
+        questionText.text = "You got \(correctQuestions) out of \(questionsArray.count)\n Do you want to play again"
         
+        // reset questionCount and correctQuestions after game.
         questionCount = 0
+        correctQuestions = 0
         
     }
     
     
     @IBAction func checkAnswer(_ sender: UIButton) {
         
-        if sender.titleLabel?.text == questionText.text {
+        if sender.titleLabel?.text == questions[questionCount].answer {
+            print(sender.titleLabel?.text)
             questionText.text = "Correct!"
+            correctQuestions += 1
+            
         
         } else {
         
             questionText.text = "Sorry, wrong answer"
+            print(sender.titleLabel?.text)
         }
+        print(questionCount)
         questionCount += 1
         loadNextRoundWithDelay(seconds: 2)
         
@@ -117,7 +122,7 @@ class ViewController: UIViewController {
         
         // Executes the nextRound method at the dispatch time on the main queue
         DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
-            self.nextRound()
+           self.nextRound()
         }
     }
 
@@ -130,10 +135,10 @@ class ViewController: UIViewController {
 
 
 
-// TODO: Fix checkAnswer 
+
 // TODO: display score at the end
 // TODO: Figure out why it's only using 8 questions
-// TODO: SEtup AutoLayout constraints 
+// TODO: Setup AutoLayout constraints
 
 
 
