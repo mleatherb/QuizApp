@@ -16,13 +16,10 @@ class ViewController: UIViewController {
     
 
     @IBOutlet weak var questionText: UILabel!
-    
-    
     @IBOutlet weak var optionOne: UIButton!
     @IBOutlet weak var optionTwo: UIButton!
     @IBOutlet weak var optionThree: UIButton!
     @IBOutlet weak var optionFour: UIButton!
-    
     @IBOutlet weak var newGame: UIButton!
     var questions = questionsArray
     
@@ -53,9 +50,7 @@ class ViewController: UIViewController {
         
         } else {
             
-        print(questionCount)
             
-        questions = [questionsArray[questionCount]]
             
         // Set the question text to the buttons
             
@@ -76,19 +71,33 @@ class ViewController: UIViewController {
         optionThree.isHidden = true
         optionFour.isHidden = true
         
+        newGame.isHidden = false
         questionText.text = "You got \(correctQuestions) out of \(questionsArray.count)\n Do you want to play again"
         
-        // reset questionCount and correctQuestions after game.
-        questionCount = 0
-        correctQuestions = 0
+
+
+    }
+    
+    
+    @IBAction func newGame(_ sender: UIButton) {
         
+        optionOne.isHidden = true
+        optionTwo.isHidden = true
+        optionThree.isHidden = true
+        optionFour.isHidden = true
+        
+        newGame.isHidden = false
+        displayQuestion()
+        print(questions[questionCount].question)
+        
+        questionCount = 0
     }
     
     
     @IBAction func checkAnswer(_ sender: UIButton) {
         
         if sender.titleLabel?.text == questions[questionCount].answer {
-            print(sender.titleLabel?.text)
+            
             questionText.text = "Correct!"
             correctQuestions += 1
             
@@ -96,7 +105,7 @@ class ViewController: UIViewController {
         } else {
         
             questionText.text = "Sorry, wrong answer"
-            print(sender.titleLabel?.text)
+            
         }
         print(questionCount)
         questionCount += 1
@@ -105,7 +114,7 @@ class ViewController: UIViewController {
     }
     
     func nextRound() {
-        if questionCount == questionsArray.count {
+        if questionCount == 9 {
             // Game is over
             displayScore()
         } else {
@@ -133,10 +142,6 @@ class ViewController: UIViewController {
 
 
 
-
-
-
-// TODO: display score at the end
 // TODO: Figure out why it's only using 8 questions
 // TODO: Setup AutoLayout constraints
 
